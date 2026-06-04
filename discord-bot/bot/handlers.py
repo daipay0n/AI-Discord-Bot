@@ -4,12 +4,14 @@ from typing import Optional
 import discord
 
 from .models import Agent, AGENTS
-from .openrouter_client import chat_completion
+from .openrouter_client import chat_completion, _free_models
+from .openrouter_client import fetch_free_models
 
 logger = logging.getLogger(__name__)
 
 MAX_DISCORD_LENGTH = 2000
 HELP_COMMANDS = {"!help", "!agents", "!commands"}
+STATUS_COMMANDS = {"!status", "!models", "!info"}
 
 
 def _build_help_message() -> str:
@@ -37,6 +39,35 @@ def _build_help_message() -> str:
 
     lines.append("**⚙️ Commands**")
     lines.append("`!help` — show this message")
+    lines.append("`!status` — show available AI models and agent assignments")
+    return "\n".join(lines)
+
+
+def _build_status_message() -> str:
+    total = len(_free_models)
+    lines = [
+        f"**📊 Discord AI Agent — Status**\n",
+        f"**Free models loaded:** {total}\n",
+    ]
+
+    icons = {
+        "Coding Expert": "💻",
+        "Study Assistant": "📚",
+        "Research Assistant": "🔍",
+        "Writing Assistant": "✍️",
+        "Main Brain": "🧠",
+    }
+
+    lines.append("**Agent → Primary Model**")
+    for agent in AGENTS:
+        icon = icons.get(agent.name, "🤖")
+        primary = agent.preferred_models[0] if agent.preferred_models else "any free model"
+        fallbacks = len(agent.preferred_models) - 1
+        lines.append(
+            f"{icon} **{agent.name}** → `{primary}` (+{fallbacks} fallbacks)"
+        )
+
+    lines.append(f"\n**Total fallback pool:** {total} free models from OpenRouter")
     return "\n".join(lines)
 
 
@@ -70,6 +101,13 @@ async def handle_message(message: discord.Message, agent: Agent) -> None:
 
     if content.lower() in HELP_COMMANDS:
         await message.channel.send(_build_help_message())
+        return
+
+    if content.lower() in STATUS_COMMANDS:
+        if not _free_models:
+            await message.channel.typing()
+            await fetch_free_models()
+        await message.channel.send(_build_status_message())
         return
 
     messages = [
