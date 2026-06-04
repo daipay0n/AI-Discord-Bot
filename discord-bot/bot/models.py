@@ -96,24 +96,6 @@ AGENTS: list[Agent] = [
         ],
     ),
     Agent(
-        name="Translation Assistant",
-        keywords=[
-            "translate", "bangla", "bengali", "বাংলা", "অনুবাদ", "grammar",
-            "english to bangla", "bangla to english",
-        ],
-        system_prompt=(
-            "You are a multilingual translation expert specializing in English "
-            "and Bengali/Bangla. Provide accurate, natural-sounding translations, "
-            "explain grammatical nuances when helpful, and preserve the original "
-            "tone and intent of the text."
-        ),
-        preferred_models=[
-            "qwen/qwen3-235b-a22b:free",
-            "google/gemini-2.0-flash-exp:free",
-            "meta-llama/llama-3.3-70b-instruct:free",
-        ],
-    ),
-    Agent(
         name="Main Brain",
         keywords=[],
         system_prompt=(
@@ -130,6 +112,3 @@ AGENTS: list[Agent] = [
         ],
     ),
 ]
-
-
-BENGALI_UNICODE_RANGE = range(0x0980, 0x09FF + 1)
