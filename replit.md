@@ -1,6 +1,6 @@
-# [Project name]
+# Discord AI Agent
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A Discord bot with 6 AI agents (Coding, Study, Research, Writing, Translation, Main Brain) that route messages by keyword and reply using OpenRouter's free models.
 
 ## Run & Operate
 

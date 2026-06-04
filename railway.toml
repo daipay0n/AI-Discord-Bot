@@ -1,0 +1,6 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "cd discord-bot && python3.11 main.py"
+restartPolicyType = "always"

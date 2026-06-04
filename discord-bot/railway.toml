@@ -1,0 +1,3 @@
+[deploy]
+startCommand = "python3.11 main.py"
+restartPolicyType = "always"
