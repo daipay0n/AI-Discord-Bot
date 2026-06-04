@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 
@@ -30,6 +30,7 @@ AGENTS: list[Agent] = [
             "concepts clearly. Help with debugging, code reviews, and "
             "implementing solutions across all programming languages."
         ),
+        preferred_model="deepseek/deepseek-r1:free",
     ),
     Agent(
         name="Study Assistant",
@@ -44,6 +45,7 @@ AGENTS: list[Agent] = [
             "Break down problems step-by-step, use clear explanations, and "
             "provide worked examples."
         ),
+        preferred_model="qwen/qwen3-235b-a22b:free",
     ),
     Agent(
         name="Research Assistant",
@@ -57,6 +59,7 @@ AGENTS: list[Agent] = [
             "factual information with clear structure. Summarize complex topics, "
             "compare options objectively, and present findings in an easy-to-read format."
         ),
+        preferred_model="meta-llama/llama-3.3-70b-instruct:free",
     ),
     Agent(
         name="Writing Assistant",
@@ -70,6 +73,7 @@ AGENTS: list[Agent] = [
             "to the context — formal, casual, creative, or professional — and "
             "provide polished, well-structured output."
         ),
+        preferred_model="nousresearch/hermes-3-llama-3.1-405b:free",
     ),
     Agent(
         name="Translation Assistant",
@@ -83,6 +87,7 @@ AGENTS: list[Agent] = [
             "explain grammatical nuances when helpful, and preserve the original "
             "tone and intent of the text."
         ),
+        preferred_model="qwen/qwen3-235b-a22b:free",
     ),
     Agent(
         name="Main Brain",
@@ -92,6 +97,7 @@ AGENTS: list[Agent] = [
             "Answer questions clearly and thoughtfully, adapt to the user's "
             "needs, and provide useful information on any topic."
         ),
+        preferred_model="moonshotai/kimi-k2:free",
     ),
 ]
 
