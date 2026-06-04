@@ -45,7 +45,7 @@ async def handle_message(message: discord.Message, agent: Agent) -> None:
     async with message.channel.typing():
         response: Optional[str] = await chat_completion(
             messages=messages,
-            preferred_model=agent.preferred_model,
+            preferred_models=agent.preferred_models,
         )
 
     if response is None:
