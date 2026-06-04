@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -7,7 +7,7 @@ class Agent:
     name: str
     keywords: list[str]
     system_prompt: str
-    preferred_model: Optional[str] = None
+    preferred_models: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -30,7 +30,12 @@ AGENTS: list[Agent] = [
             "concepts clearly. Help with debugging, code reviews, and "
             "implementing solutions across all programming languages."
         ),
-        preferred_model="deepseek/deepseek-r1:free",
+        preferred_models=[
+            "qwen/qwen3-coder-480b-instruct:free",
+            "deepseek/deepseek-r1:free",
+            "deepseek/deepseek-v3:free",
+            "moonshotai/kimi-k2:free",
+        ],
     ),
     Agent(
         name="Study Assistant",
@@ -45,7 +50,12 @@ AGENTS: list[Agent] = [
             "Break down problems step-by-step, use clear explanations, and "
             "provide worked examples."
         ),
-        preferred_model="qwen/qwen3-235b-a22b:free",
+        preferred_models=[
+            "deepseek/deepseek-r1:free",
+            "qwen/qwen3-235b-a22b:free",
+            "deepseek/deepseek-v3:free",
+            "google/gemini-2.0-flash-exp:free",
+        ],
     ),
     Agent(
         name="Research Assistant",
@@ -59,7 +69,12 @@ AGENTS: list[Agent] = [
             "factual information with clear structure. Summarize complex topics, "
             "compare options objectively, and present findings in an easy-to-read format."
         ),
-        preferred_model="meta-llama/llama-3.3-70b-instruct:free",
+        preferred_models=[
+            "google/gemini-2.0-flash-exp:free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "meta-llama/llama-4-maverick:free",
+            "openai/gpt-oss-120b:free",
+        ],
     ),
     Agent(
         name="Writing Assistant",
@@ -73,7 +88,12 @@ AGENTS: list[Agent] = [
             "to the context — formal, casual, creative, or professional — and "
             "provide polished, well-structured output."
         ),
-        preferred_model="nousresearch/hermes-3-llama-3.1-405b:free",
+        preferred_models=[
+            "nousresearch/hermes-3-llama-3.1-405b:free",
+            "meta-llama/llama-4-maverick:free",
+            "openai/gpt-oss-120b:free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+        ],
     ),
     Agent(
         name="Translation Assistant",
@@ -87,7 +107,11 @@ AGENTS: list[Agent] = [
             "explain grammatical nuances when helpful, and preserve the original "
             "tone and intent of the text."
         ),
-        preferred_model="qwen/qwen3-235b-a22b:free",
+        preferred_models=[
+            "qwen/qwen3-235b-a22b:free",
+            "google/gemini-2.0-flash-exp:free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+        ],
     ),
     Agent(
         name="Main Brain",
@@ -97,7 +121,13 @@ AGENTS: list[Agent] = [
             "Answer questions clearly and thoughtfully, adapt to the user's "
             "needs, and provide useful information on any topic."
         ),
-        preferred_model="moonshotai/kimi-k2:free",
+        preferred_models=[
+            "moonshotai/kimi-k2:free",
+            "google/gemini-2.0-flash-exp:free",
+            "openai/gpt-oss-120b:free",
+            "meta-llama/llama-4-maverick:free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+        ],
     ),
 ]
 
