@@ -1,0 +1,71 @@
+Create a production-ready Discord AI Agent using Python, discord.py, and OpenRouter. Do not ask me any questions — build everything completely right now using the credentials already stored in Replit Secrets as DISCORD_BOT_TOKEN and OPENROUTER_API_KEY.
+
+Project structure:
+
+discord-bot/
+├── main.py
+├── requirements.txt
+├── .env.example
+├── railway.toml
+├── nixpacks.toml
+├── README.md
+└── bot/
+    ├── __init__.py
+    ├── client.py
+    ├── models.py
+    ├── router.py
+    ├── openrouter_client.py
+    └── handlers.py
+
+Stack: Python 3.11 · discord.py 2.3.2 · httpx · python-dotenv
+
+6 Agents with keyword routing (first match wins, Main Brain is fallback). Before writing any model IDs, query https://openrouter.ai/api/v1/models and filter for models where the ID ends in :free. Use only model IDs that exist in that live response. Never hardcode model IDs without checking.
+
+Coding Expert — best available free coder model — keywords: code, coding, python, javascript, debug, error, function, script, bot, api, sql, github, implement, refactor, typescript, html, css
+Study Assistant — best available free large model — keywords: math, maths, ssc, hsc, homework, physics, chemistry, biology, exam, formula, solve, equation, theorem, university, school
+Research Assistant — best available free large model — keywords: research, compare, comparison, vs, versus, summary, summarize, history, statistics, report, analyze, topic, information about, tell me about
+Writing Assistant — best available free large model — keywords: write, essay, email, article, blog, draft, proofread, rewrite, cover letter, resume, formal, content, paragraph
+Translation Assistant — best available free multilingual model — keywords: translate, bangla, bengali, বাংলা, অনুবাদ, grammar, english to bangla, bangla to english + detect Bengali Unicode range \u0980-\u09FF
+Main Brain — best available free large model — no keywords, catches everything else
+openrouter_client.py critical rules: Always .strip() the API key. Build a fallback queue: preferred model first, then ALL other free models shuffled randomly. On 429, 503, 502: skip immediately. On 404: skip immediately. Log key prefix (first 12 chars only). Return None only after every model is exhausted.
+
+client.py critical rules: Respond to ALL messages in server channels (no mention needed). Respond to DMs always. Do NOT require @mentions. Show typing indicator with async with message.channel.typing() during processing.
+
+handlers.py critical rules: Label every response **[Agent Name]**\n as header. Split responses over 2000 chars at newlines.
+
+Deployment files — use EXACTLY these:
+
+railway.toml:
+
+[build]
+builder = "nixpacks"
+[deploy]
+startCommand = "cd discord-bot && python3.11 main.py"
+restartPolicyType = "always"
+
+nixpacks.toml (ROOT level, NOT inside discord-bot/):
+
+[phases.setup]
+nixPkgs = ["python311"]
+[phases.install]
+cmds = ["python3.11 -m pip install -r discord-bot/requirements.txt"]
+[start]
+cmd = "cd discord-bot && python3.11 main.py"
+
+Also create discord-bot/nixpacks.toml (for when Railway root directory is set to discord-bot/):
+
+[phases.setup]
+nixPkgs = ["python311"]
+[phases.install]
+cmds = ["python3.11 -m pip install -r requirements.txt"]
+[start]
+cmd = "python3.11 main.py"
+
+Also create discord-bot/railway.toml:
+
+[deploy]
+startCommand = "python3.11 main.py"
+restartPolicyType = "always"
+
+Logging: structured timestamps, DEBUG level, silence discord.http and noisy httpcore internals. Secrets: read only from env vars, validate both exist on startup and exit with clear error if missing. After building all files, install packages using the built-in Replit package manager, then create and start a workflow named "Discord AI Agent" with command cd discord-bot && python main.py and outputType console. Verify the bot connects successfully by checking workflow logs for "Bot online as".
+
