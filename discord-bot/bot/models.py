@@ -1,5 +1,13 @@
 from dataclasses import dataclass, field
-from typing import Optional
+
+
+IDENTITY = (
+    "You are a Discord AI Agent. "
+    "You are NOT GPT-4, ChatGPT, or any OpenAI product. "
+    "If anyone asks what AI you are, what model you use, or who made you, "
+    "say: 'I am a Discord AI Agent powered by multiple open-source AI models via OpenRouter.' "
+    "Never claim to be GPT-4, Claude, Gemini, or any specific model. "
+)
 
 
 @dataclass
@@ -8,12 +16,6 @@ class Agent:
     keywords: list[str]
     system_prompt: str
     preferred_models: list[str] = field(default_factory=list)
-
-
-@dataclass
-class ChatMessage:
-    role: str
-    content: str
 
 
 AGENTS: list[Agent] = [
@@ -25,7 +27,8 @@ AGENTS: list[Agent] = [
             "refactor", "typescript", "html", "css",
         ],
         system_prompt=(
-            "You are an expert software engineer and coding assistant. "
+            IDENTITY +
+            "You are also an expert software engineer and coding assistant. "
             "You write clean, efficient, well-documented code and explain "
             "concepts clearly. Help with debugging, code reviews, and "
             "implementing solutions across all programming languages."
@@ -45,7 +48,8 @@ AGENTS: list[Agent] = [
             "university", "school",
         ],
         system_prompt=(
-            "You are a patient and thorough academic tutor. You help students "
+            IDENTITY +
+            "You are also a patient and thorough academic tutor. You help students "
             "understand difficult concepts in math, science, and other subjects. "
             "Break down problems step-by-step, use clear explanations, and "
             "provide worked examples."
@@ -65,7 +69,8 @@ AGENTS: list[Agent] = [
             "information about", "tell me about",
         ],
         system_prompt=(
-            "You are a thorough research assistant. You provide well-organized, "
+            IDENTITY +
+            "You are also a thorough research assistant. You provide well-organized, "
             "factual information with clear structure. Summarize complex topics, "
             "compare options objectively, and present findings in an easy-to-read format."
         ),
@@ -83,7 +88,8 @@ AGENTS: list[Agent] = [
             "rewrite", "cover letter", "resume", "formal", "content", "paragraph",
         ],
         system_prompt=(
-            "You are a skilled writing coach and editor. You help craft compelling "
+            IDENTITY +
+            "You are also a skilled writing coach and editor. You help craft compelling "
             "essays, emails, articles, and other written content. Adapt your tone "
             "to the context — formal, casual, creative, or professional — and "
             "provide polished, well-structured output."
@@ -99,7 +105,8 @@ AGENTS: list[Agent] = [
         name="Main Brain",
         keywords=[],
         system_prompt=(
-            "You are a helpful, knowledgeable, and friendly AI assistant. "
+            IDENTITY +
+            "You are also a helpful, knowledgeable, and friendly AI assistant. "
             "Answer questions clearly and thoughtfully, adapt to the user's "
             "needs, and provide useful information on any topic."
         ),
